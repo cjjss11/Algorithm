@@ -7,7 +7,7 @@ for i in range(len(A)):
     r_A.append(int(A)%10)
     A = int(A)//10
 for i in range(len(B)):
-    r_B.append(int(B)%10)a
+    r_B.append(int(B)%10)
     B = int(B)//10
 
 result_A = ''
