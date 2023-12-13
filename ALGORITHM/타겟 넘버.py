@@ -1,5 +1,4 @@
 # 1. 첫 번째 방법
-
 def solution(numbers, target):
     global answer
     
@@ -16,7 +15,6 @@ def solution(numbers, target):
     return answer
 
 # 2. 두 번째 방법
-
 def solution(numbers, target):
     result = [0]
     for number in numbers:
