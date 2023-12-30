@@ -1,3 +1,4 @@
+# 첫 번째 방법
 from collections import deque
 N,M = map(int,input().split())
 arr = [list(map(int,input().split())) for _ in range(N)]
@@ -57,3 +58,72 @@ while 1:
             arr[y][x] = 0 # 음수인 부분은 바다(0)으로 바꿔주는 것은 다 녹이고 난 후에 해야함
     year += 1 # 높이 다 낮춰줬으면 연도 + 1
 print(answer)
+
+
+# 두 번째 방법
+from collections import deque
+import sys
+readline = sys.stdin.readline
+
+N,M = map(int,input().split())
+arr = [list(map(int,input().split())) for _ in range(N)]
+direct_i = [-1,0,1,0]
+direct_j = [0,1,0,-1]
+
+# 빙하 녹이는 함수
+def bfs_melting():
+    q = deque()
+    used_melting = [[0] * M for _ in range(N)]
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] != 0 and used_melting[i][j] == 0:
+                used_melting[i][j] = 1
+                q.append((i,j))
+
+    while q:
+        y,x = q.popleft()
+        for i in range(4):
+            dy = y + direct_i[i]
+            dx = x + direct_j[i]
+            if 0 <= dy < N and 0 <= dx < M:
+                if arr[dy][dx] == 0 and used_melting[dy][dx] == 0:
+                    if arr[y][x] > 0:
+                        arr[y][x] -= 1
+
+# 빙하 덩어리 개수 구하는 함수
+def bfs_cnt(y,x):
+    cnt_q = deque()
+    cnt_q.append((y,x))
+    while cnt_q:
+        y,x = cnt_q.popleft()
+        for i in range(4):
+            dy = y + direct_i[i]
+            dx = x + direct_j[i]
+            if 0 <= dy < N and 0 <= dx < M:
+                if arr[dy][dx] != 0 and used_cnt[dy][dx] == 0:
+                    used_cnt[dy][dx] = 1
+                    cnt_q.append((dy,dx))
+
+year = 0
+while 1:
+    bfs_melting()
+    used_cnt = [[0] * M for _ in range(N)]
+    cnt = 0
+    for i in range(N):
+        for j in range(M):
+            if arr[i][j] != 0 and used_cnt[i][j] == 0:
+                used_cnt[i][j] = 1
+                bfs_cnt(i,j)
+                cnt += 1
+    year += 1
+    zero = 0
+    if cnt > 1:
+        break
+    # zero = sum(row.count(0) for row in arr) 이런 식으로도 할 수 있음
+    for i in range(N):
+        zero += arr[i].count(0)
+    if zero == N*M:
+        year = 0
+        break
+
+print(year)
