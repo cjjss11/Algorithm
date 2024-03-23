@@ -1,22 +1,27 @@
+import java.util.Arrays;
+
 class Solution {
     public int solution(int[] array) {
         int answer = 0;
-        int[] index = new int[array.length+1]; 
-        int max = Integer.MIN_VALUE; 
+        int max = 0;
         
-        for(int i=0; i<array.length; i++){
-           index[array[i]]++;
-        }
-        
-        for(int i=0; i<index.length; i++){
-            if( max<index[i] ){ 
-                max = index[i];
-                answer = i ;  
-            } else if(max == index[i]) { 
-                answer = -1;
+        int cnt[] = new int[1000+1];
+        for (int i=0; i<array.length; i++) {
+            cnt[array[i]] ++;
+            if (max < cnt[array[i]]) {
+                max = cnt[array[i]];
+                answer = array[i];
             }
         }
-        
+        int temp = 0;
+        for (int i=0; i<1001; i++) {
+            if (max == cnt[i]) {
+                temp ++;
+            if (temp > 1) {
+                answer = -1;
+            }
+            }
+        }
         return answer;
     }
 }
